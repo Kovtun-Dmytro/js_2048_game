@@ -40,14 +40,6 @@ function checkGameStatus() {
   const loseMessage = document.querySelector('.message-lose');
   const startMessage = document.querySelector('.message-start');
 
-  // if (game.status === 'win' || game.status === 'lose') {
-  //   startButton.classList.add('hidden');
-  //   restartButton.classList.remove('hidden');
-  // } else {
-  //   startButton.classList.remove('hidden');
-  //   restartButton.classList.add('hidden');
-  // }
-
   if (game.status === 'win') {
     winMessage.classList.remove('hidden');
     loseMessage.classList.add('hidden');
