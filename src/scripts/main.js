@@ -35,6 +35,10 @@ function updateScore() {
 const startButton = document.querySelector('.start');
 const restartButton = document.querySelector('.restart');
 
+if (game.status === 'idle') {
+  restartButton.classList.add('hidden');
+}
+
 function checkGameStatus() {
   const winMessage = document.querySelector('.message-win');
   const loseMessage = document.querySelector('.message-lose');
@@ -66,11 +70,15 @@ startButton.addEventListener('click', () => {
     updateGameField();
     updateScore();
     checkGameStatus();
+
+    startButton.classList.add('hidden');
+    restartButton.classList.remove('hidden');
   }
 });
 
 restartButton.addEventListener('click', () => {
   game.restart();
+  game.start();
   updateGameField();
   updateScore();
   checkGameStatus();
