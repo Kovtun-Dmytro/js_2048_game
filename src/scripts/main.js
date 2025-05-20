@@ -32,6 +32,9 @@ function updateScore() {
   scoreDisplay.textContent = game.score;
 }
 
+const startButton = document.querySelector('.start');
+const restartButton = document.querySelector('.restart');
+
 function checkGameStatus() {
   const winMessage = document.querySelector('.message-win');
   const loseMessage = document.querySelector('.message-lose');
@@ -57,21 +60,17 @@ function checkGameStatus() {
   }
 }
 
-const gameButton = document.querySelector('.game-button');
-
-gameButton.classList.add('start');
-
-gameButton.addEventListener('click', () => {
+startButton.addEventListener('click', () => {
   if (game.status === 'idle') {
     game.start();
-    gameButton.textContent = 'Restart';
-    gameButton.classList.remove('start');
-    gameButton.classList.add('restart');
-  } else {
-    game.restart();
-    game.start();
+    updateGameField();
+    updateScore();
+    checkGameStatus();
   }
+});
 
+restartButton.addEventListener('click', () => {
+  game.restart();
   updateGameField();
   updateScore();
   checkGameStatus();

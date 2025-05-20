@@ -123,7 +123,7 @@ h1 {
   display: flex;
 }
 
-.game-button {
+.button {
   border: none;
   border-radius: 5px;
   cursor: pointer;
@@ -137,23 +137,22 @@ h1 {
   transition: 0.25s ease background;
 }
 
-.game-button.start {
+.start {
   background: #1dae28;
   font-size: 20px;
   margin-right: 10px;
+
+  &:hover {
+    background: #179921;
+  }
 }
 
-.game-button.start:hover {
-   background: #179921;
-}
-
-.game-button.restart {
+.restart {
   background: #f1b2b2;
-  margin-right: 10px;
-}
 
-.game-button.restart:hover {
-  background: #f87474;
+  &:hover {
+    background: #f87474;
+  }
 }
 
 .message {
