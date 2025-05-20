@@ -41,29 +41,11 @@ class Game {
     let boardChanged = false;
 
     for (let r = 0; r < 4; r++) {
-      const row = this.board[r];
-      let newRow = row.filter((tile) => tile !== 0);
+      const newRow = this.mergeLine(this.board[r]);
 
-      for (let i = 0; i < newRow.length - 1; i++) {
-        if (newRow[i] === newRow[i + 1]) {
-          newRow[i] *= 2;
-          this.score += newRow[i];
-          newRow[i + 1] = 0;
-          i++;
-        }
-      }
-
-      newRow = newRow.filter((tile) => tile !== 0);
-
-      while (newRow.length < 4) {
-        newRow.push(0);
-      }
-
-      for (let i = 0; i < 4; i++) {
-        if (this.board[r][i] !== newRow[i]) {
-          boardChanged = true;
-        }
-        this.board[r][i] = newRow[i];
+      if (this.board[r].toString() !== newRow.toString()) {
+        this.board[r] = newRow;
+        boardChanged = true;
       }
     }
 
@@ -85,31 +67,12 @@ class Game {
     let boardChanged = false;
 
     for (let r = 0; r < 4; r++) {
-      const row = [...this.board[r]].reverse();
-      let newRow = row.filter((tile) => tile !== 0);
+      const reversed = [...this.board[r]].reverse();
+      const merged = this.mergeLine(reversed).reverse();
 
-      for (let i = 0; i < newRow.length - 1; i++) {
-        if (newRow[i] === newRow[i + 1]) {
-          newRow[i] *= 2;
-          this.score += newRow[i];
-          newRow[i + 1] = 0;
-          i++;
-        }
-      }
-
-      newRow = newRow.filter((tile) => tile !== 0);
-
-      while (newRow.length < 4) {
-        newRow.push(0);
-      }
-
-      newRow = newRow.reverse();
-
-      for (let i = 0; i < 4; i++) {
-        if (this.board[r][i] !== newRow[i]) {
-          boardChanged = true;
-        }
-        this.board[r][i] = newRow[i];
+      if (this.board[r].toString() !== merged.toString()) {
+        this.board[r] = merged;
+        boardChanged = true;
       }
     }
 
@@ -131,34 +94,14 @@ class Game {
     let boardChanged = false;
 
     for (let c = 0; c < 4; c++) {
-      let column = [];
+      const col = this.board.map((row) => row[c]);
+      const merged = this.mergeLine(col);
 
       for (let r = 0; r < 4; r++) {
-        if (this.board[r][c] !== 0) {
-          column.push(this.board[r][c]);
-        }
-      }
-
-      for (let i = 0; i < column.length - 1; i++) {
-        if (column[i] === column[i + 1]) {
-          column[i] *= 2;
-          this.score += column[i];
-          column[i + 1] = 0;
-          i++;
-        }
-      }
-
-      column = column.filter((tile) => tile !== 0);
-
-      while (column.length < 4) {
-        column.push(0);
-      }
-
-      for (let r = 0; r < 4; r++) {
-        if (this.board[r][c] !== column[r]) {
+        if (this.board[r][c] !== merged[r]) {
+          this.board[r][c] = merged[r];
           boardChanged = true;
         }
-        this.board[r][c] = column[r];
       }
     }
 
@@ -180,36 +123,14 @@ class Game {
     let boardChanged = false;
 
     for (let c = 0; c < 4; c++) {
-      let column = [];
-
-      for (let r = 3; r >= 0; r--) {
-        if (this.board[r][c] !== 0) {
-          column.push(this.board[r][c]);
-        }
-      }
-
-      for (let i = 0; i < column.length - 1; i++) {
-        if (column[i] === column[i + 1]) {
-          column[i] *= 2;
-          this.score += column[i];
-          column[i + 1] = 0;
-          i++;
-        }
-      }
-
-      column = column.filter((tile) => tile !== 0);
-
-      while (column.length < 4) {
-        column.push(0);
-      }
-
-      column = column.reverse();
+      const col = this.board.map((row) => row[c]).reverse();
+      const merged = this.mergeLine(col).reverse();
 
       for (let r = 0; r < 4; r++) {
-        if (this.board[r][c] !== column[r]) {
+        if (this.board[r][c] !== merged[r]) {
+          this.board[r][c] = merged[r];
           boardChanged = true;
         }
-        this.board[r][c] = column[r];
       }
     }
 
@@ -354,6 +275,27 @@ class Game {
     }
 
     return empty;
+  }
+
+  mergeLine(line) {
+    let newLine = line.filter((v) => v !== 0);
+
+    for (let i = 0; i < newLine.length; i++) {
+      if (newLine[i] === newLine[i + 1]) {
+        newLine[i] *= 2;
+        this.score += newLine[i];
+        newLine[i + 1] = 0;
+        i++;
+      }
+    }
+
+    newLine = newLine.filter((v) => v !== 0);
+
+    while (newLine.length < 4) {
+      newLine.push(0);
+    }
+
+    return newLine;
   }
 }
 
